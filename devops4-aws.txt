@@ -1,0 +1,258 @@
+AWS
+===
+1. VPC
+2. subnets
+3. routetable
+4. NACL
+
+Security groups:
+---------------
+1. By default all the ports blocks execpt 22 for ssh.
+2. There is no explicit deny rule in the security groups.
+3. when you want allow traffic from specific port then you have to define explicit allow.
+
+Iaac -- (Infrastructure as a Code): Ansible/Terraform/Cloudformation(aws)/python Boto3 etc
+
+
+Terraform : Hashicorporation
+Language: HCL(Hashi Corporation language)
+Cloud Agnostic tool.
+
+Modules --AWS,GCP ,Local etc.
+
+  init          Prepare your working directory for other commands
+  validate      Check whether the configuration is valid
+  plan          Show changes required by the current configuration
+  apply         Create or update infrastructure
+  destroy       Destroy previously-created infrastructure
+
+version = "~> 3.0" # 3.1,3.2,3.1.2
+version = " 3.0"
+===============
+AWS cli install and configure credentials:
+
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+
+/usr/local/bin/aws --version
+
+=====================
+
+Syntax :
+
+resouce <block type> "<block lable>" "block label>" {
+  # block body
+  <Identifier> =<value>  # Arguments
+}
+
+resource "aws_instance" "myec2-test" {
+  ami           = "ami-079b5e5b3971bd10d"
+  instance_type = "t2.micro"
+}
+
+ec2-id        = "i-0f2bdf583f9528812" -> (known after apply)
+  ~ ec2-public-ip = "65.0.21.220" -> (known after apply)
+
+
+s3:
+====
+arn:aws:s3:::my-test-devops4/putty/PLINK.EXE
+arn:aws:iam:::my-test-devops4/putty/PLINK.EXE
+arn:aws:iam::066666000744:user/devops4
+
+arn:aws:<service-name>:region:accountid:object/objectname
+
+avaialability : 99.999999999
+
+
+IAM:(Identity and Access Management)
+===
+Principal : 
+
+Authentiation: credentials
+Authorization: type of access.
+
+https://066666000744.signin.aws.amazon.com/console
+https://devops4-training.signin.aws.amazon.com/console
+
+Two type of policies:
+---------------------
+1. AWS Managed policies
+2. custom poplicies
+
+
+VPC (Virtual Private Cloud)
+==========================
+default vpc
+defautl routing table
+default internetgateway
+default network access control list
+default security group
+default subnets
+
+172.31.0.0/16 --65536  -2^16
+CIDR (Classless Inter Domain Routing)
+8	8 8 8
+172.0.0.0/24(mask) --CIRD --2^8 =256 IP allocated to this VPC
+
+251 ip remaing.
+
+172.0.0.0/28  == 32-28 =4 ==>2^4 ==16
+
+8+8+8+8 =32 -25=7
+172.0.0.0/25 --> 2^7=128 subnet 1 (172.0.0.0 --172.0.0.127) -->123
+172.0.0.0 -- Network address
+172.0.0.1 -- Routing purpose
+172.0.0.2 -- DNS purpose
+172.0.0.3 -- Future purpose
+172.0.0.4
+172.0.0.5
+...
+...
+172.0.0.127 (171.0.0.X) -- Broadcasting purpose
+
+172.0.0.128/25 --> 2^7=128 subnet 1 (172.0.0.128 --172.0.0.255)  -->123
+172.0.0.128 -- Network address (subnet range)
+172.0.0.129 -- Routing purpose (subnet+1)
+172.0.0.130 -- DNS purpose (subnet+2)
+172.0.0.131 -- Future purpose (subnet+3)
+172.0.0.132
+172.0.0.5
+...
+...
+172.0.0.255 (171.0.0.X) -- Broadcasting purpose (subnet+x)
+
+
+172.0.0.0/27  == 32-27 =4 ==>2^5 ==32
+
+4 subnets --> 8
+
+172.0.0.0/28--> 2^4=16
+172.0.0.0
+172.0.0.1
+172.0.0.2
+172.0.0.3
+172.0.0.4
+172.0.0.5
+172.0.0.6
+172.0.0.7
+....    15
+
+172.0.0.16/28
+
+1. i have created ec2 server but the ip address is not getting allocated?
+   CIDR ip pool --> 
+
+2. i have created ec2 server but the public ip address is not getting allocated?
+   Enable auto-assign public IPv4 address is enabled for default vpc subnets.
+   
+public vs private:
+=================
+
+securityGroup vs NACL
+=====================
+security:
+ 1. it applied in the EC2 instance leavel and eache isntance have securitygroup.
+ 2. By default it block all the IP. we have explicitly allow the ip/port .
+ 3. support only allow rules and you don't need to specific any outbound rules.
+ 
+NACL:
+ 1. NACL is applied into subnet level. it automatically applied to all ec2 in that subnet.
+ 2. NACL we have options to allow/deny.
+ 3. We have explicitly allow/block in both inbound and outbound rules.
+ 
+WAF(Web Application Firewall)
+============================
+1. WAF Classic
+   - The rules has to defined manually.
+2. WAF v2.0
+   - There 8 pre-defines aws rules .
+   
+LoadBalancers:
+=============
+1. Create LB
+2. target to the targetgroups
+3. target groups contain the actual ec2 vms
+
+Types:
+-----
+1. Classic Loadbalancer
+2. Application LoadBalancer
+3. Network LoadBalancer.
+4. Gateway LoadBalancer.
+
+
+ns-578.awsdns-08.net
+ns-1049.awsdns-03.org
+ns-439.awsdns-54.com
+ns-2021.awsdns-60.co.uk
+
+
+http://devops4.malleshdevops.co.in/  -->Godaday --> NS -->EC2 
+
+EFS
+S3 mount to host
+EKS
+
+ s3fs-fuse
+---------
+sudo amazon-linux-extras install epel
+sudo yum install s3fs-fuse
+
+mkdir -p /home/devops10-test1
+
+region : ap-south-1
+url : https://s3.ap-south-1.amazonaws.com (change the region accordingly where your bucket created)
+bucketname : devops10-test1
+mount point folder : /home/devops10-test1
+
+ /usr/bin/s3fs -o endpoint=ap-south-1 -o url=https://s3.ap-south-1.amazonaws.com -o iam_role=devops10-test-1 devops10-test1 /home/devops10-test1 -o nonempty
+
+/usr/bin/s3fs -o endpoint=ap-south-1 -o url=https://s3.ap-south-1.amazonaws.com -o iam_role=devops10-test-1 devops10-test1 /home/ec2-user/devops -o nonempty
+
+
+=====
+Variables:
+----------
+1 Input variable 
+   string,set,list ,object etc.
+   
+   output "list-example" {
+   
+   value = [ for server in aws_instance.myservers[*]: server.public_ips ]
+   }
+   
+   output "map-example"
+   {
+     value = {for server in aws_instance.myservers[*]: server.id ==> server.public_ips }
+   }
+ list = [ "abc", "def","devops" ,"devops" ]
+ set = [ "abc", "def","devops" ]
+ map = { "name" : "devops", "batch" : "4" }
+ 
+ 2 output variable
+3. local variable:
+   locals {
+    tags = { Name ="devops4"
+		     purpose = "terraform"
+			 }
+   }
+   by using local.tags we can reference.
+   
+   scanario : i want to create vpc and ec2 instances and need to apply same to both.
+           { Name ="devops4"
+		     purpose = "terraform"
+			 }
+		vpc  == { "env" = "test" }
+		ec2 == { "application" = "web" }
+
+to comibile two maps  : merge in terraform
+to comible list  : concat
+to combile string : join
+
+ 
+
+
+
+

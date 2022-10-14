@@ -1,0 +1,57 @@
+Devops:
+======
+Devoper : developing and performing some small testcase
+
+
+
+Operations : 1. build the code (jar)
+             2. test env
+			 3. QA round of testing - 2days
+			 
+			 4. new servers
+			 4. deployment
+			 5. monitoring
+			 
+Advantages:
+===========
+1. Faster delivery to customer
+2. cost reduction
+3. Quality of feature
+
+
+Developer + Testing(QA) + production support
+
+Devoper: SVN,GIThub,Bitbucket,Gerrit ( Source code management)
+Java --> Maven,Gradle
+.net -->MSbuild
+testing : Junit,Ngtesting
+deployment : Jenkins,CircleCi,Travis ci,Bamboo,Rundeck,Spinnaker etc
+infrastture : configuration tools (Ansible,Terraform,Cheff,puppet , AWS(Cloudformation) Aws boto3 etc
+AWS - cloud
+
+Docker 
+Kubernetes
+
+Pre-requisites:
+==============
+linux basics
+
+Tools:
+
+1. Git/Github/Bitbucket
+2. Jenkins
+3. Maven
+4. Junit
+5. Testing report frameworks - Allure reports,Cuccumber reports.
+6. Docker
+7. Kubernets
+8. Helm charts
+8. Ansible
+9. AWS Basics
+10.Terraform
+
+60hr
+45 days
+
+=====
+
