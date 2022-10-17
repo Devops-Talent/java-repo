@@ -1,6 +1,4 @@
 
-devops13
-
 
 Devops:
 ======
